@@ -3,7 +3,7 @@ import './App.css'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Map from './components/map.jsx';
+import Map from './components/Map.jsx';
 
 function App() {
   const [latLng, setLatLng] = useState(null);
