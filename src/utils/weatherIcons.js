@@ -1,4 +1,4 @@
-export const weatherIcons = {
+const weatherIcons = {
     0: '☀️', // Clear sky
     1: '🌤️', // Mainly clear
     2: '⛅', // Partly cloudy
@@ -15,3 +15,5 @@ export const weatherIcons = {
     80: '🌦️', // Rain showers
     95: '⛈️', // Thunderstorm
 };
+
+export default weatherIcons;
