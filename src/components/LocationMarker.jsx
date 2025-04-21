@@ -1,10 +1,8 @@
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 
-const LocationMarker = ({ latLng, setLatLng }) => {
+const LocationMarker = ({ latLng, handleMapClick }) => {
     useMapEvents({
-        click: (e) => {
-            setLatLng(e.latlng);
-        },
+        click: (e) => handleMapClick(e.latlng),
     });
 
     return latLng ? (

@@ -1,59 +1,57 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Map from './components/Map.jsx';
-import weatherIcons from "./utils/weatherIcons";
+import WeatherCard from './components/WeatherCard.jsx';
 
-function App() {
+
+const App = () => {
   const [latLng, setLatLng] = useState(null);
-
   const [weather, setWeather] = useState(null);
 
-  useEffect(() => {
-    if (!latLng) return;
 
-    const fetchWeather = async () => {
-      const { lat, lng } = latLng;
-      
-      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,weather_code`)
-        .then((response) => response.json())
-        .then((data) => {
-          setWeather({
-            temperature: data.current.temperature_2m,
+  const handleMapClick = (latlng) => {
+    setLatLng(latlng);
+    const { lat, lng } = latlng;
+
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min&current=temperature_2m,weather_code&timezone=auto`)
+      .then((response) => response.json())
+      .then((data) => {
+        setWeather({
+          current: {
+            time: data.current.time,
+            temp: data.current.temperature_2m,
             code: data.current.weather_code,
-          });
+          },
+          daily: data.daily.time.map((date, index) => ({
+            date: date,
+            maxTemp: data.daily.temperature_2m_max[index],
+            minTemp: data.daily.temperature_2m_min[index],
+            code: data.daily.weather_code[index],
+          }))
         });
-    };
+      })
+      .catch((error) => {
+        console.error("Failed to fetch weather data:", error);
+        setWeather(null);
+      });
+  };
 
-    fetchWeather();
-  }, [latLng]);
 
   return (
     <>
       <Container fluid>
         <Row>
           <Col lg={8}>
-            <Map latLng={latLng} setLatLng={setLatLng} />
+            <Map latLng={latLng} handleMapClick={handleMapClick} />
           </Col>
           <Col lg={4}>
             {latLng ? (
-              <div>
-                <p>Latitude: {latLng.lat.toFixed(4)}</p>
-                <p>Longitude: {latLng.lng.toFixed(4)}</p>
-                {weather ? (
-                  <div>
-                    <h1>
-                      {weatherIcons[weather.code] || '❓'} {weather.temperature}°C
-                    </h1>
-                  </div>
-                ) : (
-                  <p>Loading weather...</p>
-                )}
-              </div>
+              <WeatherCard weather={weather} />
             ) : (
-              <p>Click on the map to get location coordinates.</p>
+              <p>Select a location on the map to see the weather!</p>
             )}
           </Col>
         </Row>
