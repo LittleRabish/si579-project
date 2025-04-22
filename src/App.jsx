@@ -5,11 +5,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Map from './components/Map.jsx';
 import WeatherCard from './components/WeatherCard.jsx';
+import Header from './components/Header.jsx';
 
 
 const App = () => {
   const [latLng, setLatLng] = useState(null);
   const [weather, setWeather] = useState(null);
+  const [isF, setIsF] = useState(false);
 
 
   const handleMapClick = (latlng) => {
@@ -42,14 +44,15 @@ const App = () => {
 
   return (
     <>
+      <Header isF={isF} setIsF={setIsF} />
       <Container fluid>
         <Row>
-          <Col lg={8}>
+          <Col lg={8} className='p-2'>
             <Map latLng={latLng} handleMapClick={handleMapClick} />
           </Col>
-          <Col lg={4}>
+          <Col lg={4} className='p-2'>
             {latLng ? (
-              <WeatherCard weather={weather} />
+              <WeatherCard weather={weather} isF={isF} />
             ) : (
               <p>Select a location on the map to see the weather!</p>
             )}
