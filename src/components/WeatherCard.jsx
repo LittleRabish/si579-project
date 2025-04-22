@@ -7,6 +7,14 @@ import weatherIcons from "../utils/weatherIcons";
 const WeatherCard = ({ weather, isF }) => {
   const convertTemp = (degC) => isF ? (degC * 9) / 5 + 32 : degC;
 
+  const formatDate = (date) => {
+    const [year, month, day] = date.split('-');
+    return new Date(year, month - 1, day).toLocaleDateString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric'
+    });
+  };
+
+
   return (
     <>
       {weather ? (
@@ -26,9 +34,7 @@ const WeatherCard = ({ weather, isF }) => {
               <ListGroup.Item key={index} >
                 <Row className="align-items-center text-center">
                   <Col xs={4}>
-                    {new Date(info.date).toLocaleDateString('en-US', {
-                      weekday: 'short', month: 'short', day: 'numeric'
-                    })}
+                    {formatDate(info.date)}
                   </Col>
                   <Col xs={4}>
                     {weatherIcons[info.code] || 'Unknown'}

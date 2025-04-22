@@ -16,7 +16,7 @@ const App = () => {
 
   const handleMapClick = (latlng) => {
     setLatLng(latlng);
-    const { lat, lng } = latlng;
+    const { lat, lng } = latlng.wrap();
 
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min&current=temperature_2m,weather_code&timezone=auto`)
       .then((response) => response.json())
