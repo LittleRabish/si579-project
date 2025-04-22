@@ -36,7 +36,7 @@ const WeatherCard = ({ weather, isF }) => {
                   <Col xs={4}>
                     {formatDate(info.date)}
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={4} className="fs-4">
                     {weatherIcons[info.code] || 'Unknown'}
                   </Col>
                   <Col xs={4}>
