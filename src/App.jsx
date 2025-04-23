@@ -7,15 +7,29 @@ import Map from './components/Map.jsx';
 import WeatherCard from './components/WeatherCard.jsx';
 import Header from './components/Header.jsx';
 
-
+/**
+ * Main application component that renders the weather map interface, 
+ * maintains three states for child components to use, and fetches weather 
+ * data from API.
+ * 
+ * @returns {JSX.Element} The main application component containing the 
+ *                        header, map, and weather card.
+ */
 const App = () => {
   const [latLng, setLatLng] = useState(null);
   const [weather, setWeather] = useState(null);
   const [isF, setIsF] = useState(false);
 
-
+  /**
+   * Handles map click events by updating coordinates, fetching weather data,
+   * and updating the weather state.
+   *
+   * @param {L.LatLng} latlng - A Leaflet LatLng object indicating the current 
+   *                            selected location on the map
+   */
   const handleMapClick = (latlng) => {
     setLatLng(latlng);
+    // Using `wrap()` to keep the longitude within valid bounds
     const { lat, lng } = latlng.wrap();
 
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weather_code,temperature_2m_max,temperature_2m_min&current=temperature_2m,weather_code&timezone=auto`)

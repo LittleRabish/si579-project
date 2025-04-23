@@ -1,3 +1,8 @@
+/**
+ * @const {Object<number, string>}
+ * 
+ * Maps Open-Meteo weather codes to corresponding emoji icons or descriptions.
+ */
 const weatherIcons = {
   0: '☀️', // Clear sky
   1: '🌤️', // Mainly clear
